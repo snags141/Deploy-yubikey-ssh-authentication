@@ -28,7 +28,7 @@ echo "[+] Enabling ChallengeResponse..."
 sed -ri -e 's!ChallengeResponseAuthentication no!ChallengeResponseAuthentication yes!g' $sshd_config
 echo "[+] Adding mfa auth methods..."
 echo "Match group mfa" >> /etc/ssh/sshd_config
-echo "*  AuthenticationMethods publickey,keyboard-interactive" >> $sshd_config
+echo "  AuthenticationMethods publickey,keyboard-interactive" >> $sshd_config
 echo "[+] Cloning yubico-c-client..."
 git clone https://github.com/Yubico/yubico-c-client.git $install_dir/yubico-c-client
 echo "*  Unpacking..."
