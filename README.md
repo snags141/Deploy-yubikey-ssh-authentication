@@ -8,6 +8,9 @@ You can google how to set up yubikey ssh authentication all day long, just like 
 Everyone is welcome to commit new versions for different OS'es. Manage to convert it to work with Ubuntu? Sweet, commit another script for others to use and further modify.
 
 # How to use
+MAKE BACKUPS.
+- /etc/ssh/sshd_config
+- /etc/pam.d/sshd
 Before executing with `sudo deployyubikeyssh.sh`, you will need to modify some crucial variables 
 
 | Variable | Description | Example |
