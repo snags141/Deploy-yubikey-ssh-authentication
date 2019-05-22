@@ -7,10 +7,14 @@ You can google how to set up yubikey ssh authentication all day long, just like 
 # Contribution
 Everyone is welcome to commit new versions for different OS'es. Manage to convert it to work with Ubuntu? Sweet, commit another script for others to use and further modify.
 
-# How to use
+# IMPORTANT
 MAKE BACKUPS.
 - /etc/ssh/sshd_config
 - /etc/pam.d/sshd
+Once you've run the script successfully, *DONT CLOSE YOUR CURRENT ACTIVE SSH SESSION.* Open a second terminal, and use a fresh terminal to test that it worked. If something gets borked during the setup and you close your working SSH session, you may get stuck in limbo and be *locked out* of SSH. I'd recommend testing on a non-prod server first, and creating a backup account that you can still ssh into. As long as the user is not in the mfa group created by this script, you should be able to bypass Yubikey.
+It may be worth considering having a second account heavily secured with a method other than yubikey, just in case the api ever drops out on you.
+
+# How to use
 Before executing with `sudo deployyubikeyssh.sh`, you will need to modify some crucial variables 
 
 | Variable | Description | Example |
