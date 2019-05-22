@@ -18,9 +18,9 @@ yum -y install git autoconf automake asciidoc libtool pam-devel libcurl-devel he
 echo "[+] Adding mfa group"
 groupadd mfa
 for user in ${yubikey_users[@]}; do
-        echo "  Adding $user to mfa group"
+        echo "*  Adding $user to mfa group"
         usermod -aG mfa $user
-        echo "  adding $user to yubikey map..."
+        echo "*  adding $user to yubikey map..."
         echo $user >> /etc/yubikey_mappings
 done
 
@@ -28,25 +28,29 @@ echo "[+] Enabling ChallengeResponse..."
 sed -ri -e 's!ChallengeResponseAuthentication no!ChallengeResponseAuthentication yes!g' $sshd_config
 echo "[+] Adding mfa auth methods..."
 echo "Match group mfa" >> /etc/ssh/sshd_config
-echo "  AuthenticationMethods publickey,keyboard-interactive" >> $sshd_config
+echo "*  AuthenticationMethods publickey,keyboard-interactive" >> $sshd_config
 echo "[+] Cloning yubico-c-client..."
 git clone https://github.com/Yubico/yubico-c-client.git $install_dir/yubico-c-client
-echo "  Unpacking..."
-autoreconf -m $install_dir/yubico-c-client/ --install
-$install_dir/yubico-c-client/configure
-make -C $install_dir/yubico-c-client check
-make -C $install_dir/yubico-c-client install
+echo "*  Unpacking..."
+cd $install_dir/yubico-c-client
+autoreconf --install
+./configure
+make check
+make install
+cd $install_dir
 echo "[+] Cloning yubico-pam..."
 git clone https://github.com/Yubico/yubico-pam.git $install_dir/yubico-pam
-echo "  Unpacking..."
-autoreconf -m $install_dir/yubico-pam/ --install
-$install_dir/yubico-pam/configure --without-cr
-make -C $install_dir/yubico-pam check
-make -C $install_dir/yubico-pam install
-
+echo "*  Unpacking..."
+cd $install_dir/yubico-pam
+autoreconf --install
+./configure --without-cr
+make check
+make install
+cd $install_dir
 mv /usr/local/lib/security/pam_yubico.so /lib64/security/
 
 sed -i '1s/^/# yubikey\n /' /etc/pam.d/sshd
 sed -i '2s/^/auth       sufficient   pam_yubico.so id=$yubico_api_id authfile=/etc/yubikey_mappings\n /' /etc/pam.d/sshd
 
 service sshd restart
+echo "[] Done"
