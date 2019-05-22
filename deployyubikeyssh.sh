@@ -8,8 +8,8 @@ echo "[+] Installing pam_yubico..."
 yum -y install pam_yubico
 echo "[+] Installing Dependencies..."
 yum -y install git autoconf automake asciidoc libtool pam-devel libcurl-devel help2man
-echo "[+] Enabling Yubikey auth login"
-setsebool -P authlogin_yubikey 1
+# echo "[+] Enabling Yubikey auth login"
+# setsebool -P authlogin_yubikey 1      # Only required if you're using SELinux  
 echo "[+] Adding mfa group"
 groupadd mfa
 for user in ${yubikey_users[@]}; do
