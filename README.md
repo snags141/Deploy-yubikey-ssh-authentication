@@ -34,6 +34,13 @@ Before executing with `sudo deployyubikeyssh.sh`, you will need to modify some c
 \*\**Where can I get an API ID?*
 https://upgrade.yubico.com/getapikey
 
+# Troubleshooting
+If you get to the end of the script and get something like
+`Job for sshd.service failed because the control process exited with error code. See "systemctl status sshd.service" and "journalctl -xe" for details.`
+1. Run `systemctl status sshd.service` and observe as it tells you sweet FA, other than that the SSH daemon fell over.
+2. Run `sudo sshd -t` instead to actually find out what the problem is. Probably an error in sshd_config.
+3. Google it ¯\_(ツ)_/¯
+
 # Credits
 @snags141
 
