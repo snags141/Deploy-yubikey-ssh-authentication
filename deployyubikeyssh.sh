@@ -17,11 +17,11 @@ yum -y install git autoconf automake asciidoc libtool pam-devel libcurl-devel he
 # setsebool -P authlogin_yubikey 1      # Only required if you're using SELinux  
 echo "[+] Adding mfa group"
 groupadd mfa
-for user in ${yubikey_users[@]}; do
-        echo "*  Adding $user to mfa group"
-        usermod -aG mfa $user
-        echo "*  adding $user to yubikey map..."
-        echo $user >> /etc/yubikey_mappings
+for yubiuser in ${yubikey_users[@]}; do
+        echo "*  Adding $yubiuser to mfa group"
+        usermod -aG mfa ${yubiuser%%:*}
+        echo "*  adding $yubiuser to yubikey map..."
+        echo $yubiuser >> /etc/yubikey_mappings
 done
 
 echo "[+] Enabling ChallengeResponse..."
