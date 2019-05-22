@@ -1,4 +1,9 @@
 ##!/bin/bash
+# Check if sudo
+if [ "$EUID" -ne 0 ]
+        then echo "Please run with sudo"
+        exit
+fi
 sshd_config="/etc/ssh/sshd_config"
 install_dir="/home/ec2-user" # You may need to change this dir to another user home/user-writeable dir.
 yubico_api_id="1234" # Change to your yubico API ID
