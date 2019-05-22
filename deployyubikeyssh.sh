@@ -1,6 +1,7 @@
 ##!/bin/bash
 sshd_config="/etc/ssh/sshd_config"
 install_dir="/home/ec2-user" # You may need to change this dir to another user home/user-writeable dir.
+yubico_api_id="1234" # Change to your yubico API ID
 declare -a yubikey_users=("ec2-user:yubikeyid1:yubikeyid2" "user2:yubikeyid" "use3:yubikeyid" "user4:yubikeyid")
 
 echo "[+] Installing pam_yubico..."
@@ -41,6 +42,6 @@ make -C $install_dir/yubico-pam install
 mv /usr/local/lib/security/pam_yubico.so /lib64/security/
 
 sed -i '1s/^/# yubikey\n /' /etc/pam.d/sshd
-sed -i '2s/^/auth       sufficient   pam_yubico.so id=<your yubico API id here> authfile=/etc/yubikey_mappings\n /' /etc/pam.d/sshd
+sed -i '2s/^/auth       sufficient   pam_yubico.so id=$yubico_api_id authfile=/etc/yubikey_mappings\n /' /etc/pam.d/sshd
 
 service sshd restart
