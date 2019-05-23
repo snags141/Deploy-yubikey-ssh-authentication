@@ -50,7 +50,7 @@ cd $install_dir
 mv /usr/local/lib/security/pam_yubico.so /lib64/security/
 
 sed -i '1s/^/# yubikey\n /' /etc/pam.d/sshd
-sed -i '2s/^/auth       sufficient   pam_yubico.so id=$yubico_api_id authfile=/etc/yubikey_mappings\n /' /etc/pam.d/sshd
+sed -i '2s/^/auth       sufficient   pam_yubico.so id=$yubico_api_id authfile=\/etc\/yubikey_mappings\n /' /etc/pam.d/sshd
 
 service sshd restart
 echo "[] Done"
